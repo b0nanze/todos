@@ -1,0 +1,32 @@
+.app {
+    width: 500px;
+    margin: auto;
+}
+.work {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid lightblue;
+    padding: 15px;
+    border-radius: 5px;
+}
+.work div {
+    width: 450px;
+}
+.work button {
+    border: none;
+    background-color: white;
+}
+.form {
+    margin: 15px;
+}
+h1 {
+    text-align: center;
+}
+.form button {
+    border: none;
+    padding: 10px;
+    background-color: navajowhite;
+    border-radius: 5px;
+}
+
