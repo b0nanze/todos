@@ -1,21 +1,28 @@
 import React from 'react';
 import {useState} from "react";
+import Header from "./Header";
+import Form from "./Form";
+import Task from "./Task";
+import Reset from "./Reset";
 
-function App(props) {
+function App() {
     const [todos, setTodos] = useState([
         {
             text: "Сделать работу",
-            id: 1
+            done: false
         },
         {
             text: "Посмотреть телевизор",
-            id: 2
+            done: false
         },
         {
             text: "Сдать работу",
-            id: 3
+            done: false
         }
     ]);
+    const [check, setCheck] = useState(false)
+    const [text, setText] = useState("");
+
     const deleteTodo = (checkIn) => {
         const filter = todos.filter((e, index) => {
             return index !== checkIn;
@@ -23,42 +30,54 @@ function App(props) {
         setTodos(filter)
     }
 
+    const handleCheck = () => {
+        setCheck(!check)
+    }
+
+    const handleClick = (i) => {
+        const newTodos = todos.map((item,index) => {
+            if (i === index) return {
+                ...item,
+                done: !item.done
+            }
+
+            return item
+        })
+        setTodos(newTodos)
+    }
+
+    const resetTodos =() => {
+    setTodos([<div className="block">1</div>])
+    }
+
     const newTodos = todos.map((item, index) => {
         return(
-            <div>
+            <div key={index}>
                 <div className="work">
                     <div>{item.text}</div>
-                    <input type="checkbox"/>
+                    <input type="checkbox"
+                           checked={item.done}
+                           onChange={() => handleClick(index)} />
                     <button onClick={() => deleteTodo(index)}>❌</button>
                 </div>
             </div>
         )
-        });
+    });
 
-    const [text, setText] = useState("");
-
-    const addTodos = (item, index) => {
+    const addTodos = () => {
         setTodos([{
-            text:text,
-            id: index
+            text: text,
+            done: check
         }, ...todos])
         setText("");
-
     }
-    const handleChange = (e) => {}
 
     return (
-        <div className="app">
-            <div className="header">
-                <h1>Список Дел</h1>
-            </div>
-            <hr />
-            <div className="form">
-            <input placeholder="Введите текст..." type="text" value={text} onChange={(e) => setText(e.target.value)}/>
-            <input type="checkbox"/>
-            <button onClick={addTodos}>Добавить</button>
-            </div>
-            <div>{newTodos}</div>
+        <div key={9991} className="app">
+            <Header />
+            <Form text={text} setText={setText} addTodos={addTodos} handleCheck={handleCheck} />
+            <Task newTodos={newTodos}/>
+            <Reset reset={resetTodos}/>
         </div>
     );
 }
